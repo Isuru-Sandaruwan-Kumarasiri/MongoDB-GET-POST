@@ -12,7 +12,9 @@ const userShema=new Shema({
         },
         email:{
             type:String,
-            required:true
+            required:true,
+            unique:true,//set as primary key
+            trim:true   //remove white spaces
         },
         age :{
             type:Number,
