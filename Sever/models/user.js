@@ -12,7 +12,8 @@ const userShema=new Shema({
         },
         email:{
             type:String,
-            required:true
+            required:true,
+            unique:true
         },
         age :{
             type:Number,

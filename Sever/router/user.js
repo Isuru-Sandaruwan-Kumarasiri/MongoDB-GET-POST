@@ -17,7 +17,7 @@ router.post("/user", async (req, res) => {
 
   router.get("/user",async(req,res)=>{
    try {
-      const users=await User.find({id:"658d09fb267fe8e71a565e45"});
+      const users=await User.find({});
       res.status(200).send(users);
    } catch (error) {
       res.status(400).send(error);
