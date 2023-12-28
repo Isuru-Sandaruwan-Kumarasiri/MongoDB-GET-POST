@@ -14,14 +14,29 @@ router.post("/user", async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
+});
 
-  router.get("/user",async(req,res)=>{
-   try {
-      const users=await User.find({});
-      res.status(200).send(users);
-   } catch (error) {
-      res.status(400).send(error);
-   }
-  });
+router.get("/user", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).send(users);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+//using param
+router.get("/user/:id", async (req, res) => {
+  const _id = req.params.id; //postman aken den id eka(url included) assigned wenwa
+
+  try {
+    const user = await User.findById(_id);//find user by id
+    if (!user) {
+      return res.status(404).send();
+    }
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 module.exports = router;
