@@ -27,14 +27,28 @@ router.get("/user", async (req, res) => {
 
 //using param
 router.get("/user/:id", async (req, res) => {
-  const _id = req.params.id; //postman aken den id eka(url included) assigned wenwa
+  const _id = req.params.id; //postman aken den id eka(url included) assigned wenwa            //Internet needed for all js file run
 
   try {
-    const user = await User.findById(_id);//find user by id
+    const user = await User.findById(_id); //find user by id
     if (!user) {
       return res.status(404).send();
     }
     res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.patch("/user/:id", async (req, res) => {
+  try {
+    const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    }); //new:true means request to get updated user
+    if (!updateUser) {
+      return res.status(400).send();
+    }
+    res.status(200).send(updateUser);
   } catch (error) {
     res.status(400).send(error);
   }
