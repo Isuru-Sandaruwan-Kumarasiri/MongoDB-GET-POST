@@ -17,13 +17,6 @@ router.post("/user/login",async(req,res)=>{
 
 
 
-
-
-
-
-
-
-
 //localhost:5000
 router.post("/user", async (req, res) => {
   //used User model creating new User object
