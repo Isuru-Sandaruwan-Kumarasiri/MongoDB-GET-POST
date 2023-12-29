@@ -3,6 +3,27 @@ const User = require("../models/user");
 const express = require("express"); //get express packge
 const router = express.Router(); //get router function and assigned to the vaiable
 
+
+//loging router
+
+router.post("/user/login",async(req,res)=>{
+  try {
+    const user =await User.findByCredentials(req.body.email,req.body.password);
+    res.send(user);
+  } catch (error) {
+    res.status(401);
+  }
+})
+
+
+
+
+
+
+
+
+
+
 //localhost:5000
 router.post("/user", async (req, res) => {
   //used User model creating new User object
