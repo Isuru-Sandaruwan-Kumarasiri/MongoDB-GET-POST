@@ -3,6 +3,7 @@ const bodyParser=require("body-parser");
 const cors=require("cors");
 require("./DB/mongoose");
 const userRouter=require("./router/user");
+const userTask=require("./router/task");
 
 
 const app=express();//express sever
@@ -12,6 +13,7 @@ const app=express();//express sever
 app.use(cors());
 app.use(bodyParser.json());     //this sever can use any packages
 app.use(userRouter);
+app.use(userTask);
 
 
 //initilize port number
