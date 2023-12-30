@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const mongoose=require("mongoose");
+const jwt=require("jsonwebtoken");
 
 //to craete template use schema class
 
@@ -25,7 +26,15 @@ const userShema=new Shema({
             type:String,
             trim:true,
             required:true,
-        }
+        },
+        tokens:[
+            {
+                token:{
+                    type:String,
+                
+                }
+            }
+        ]
 });
 
 userShema.pre("save",async function(next){
@@ -60,6 +69,17 @@ userShema.statics.findByCredentials=async(email,password)=>{
 }
 
 
+//genrate token
+    //user hara call karnne -methods()
+
+userShema.methods.generateAuthToken=async function(){
+    const user=this;
+    const token=jwt.sign({_id:user._id.toString()},"isuru");
+    user.tokens=user.tokens.concat({token})//concat mean save
+    await user.save();
+    return token;
+
+}
 
 
 
