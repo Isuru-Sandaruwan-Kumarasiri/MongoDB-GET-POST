@@ -9,18 +9,12 @@ const router = express.Router(); //get router function and assigned to the vaiab
 router.post("/user/login",async(req,res)=>{
   try {
     const user =await User.findByCredentials(req.body.email,req.body.password);
+    const token=await user.generateAuthToken();
     res.send(user);
   } catch (error) {
     res.status(401);
   }
 })
-
-
-
-
-
-
-
 
 
 
