@@ -2,6 +2,7 @@ const User = require("../models/user");
 //router is used to transfer data
 const express = require("express"); //get express packge
 const router = express.Router(); //get router function and assigned to the vaiable
+const auth=require("../middleware/auth")
 
 
 //loging router
@@ -31,7 +32,7 @@ router.post("/user", async (req, res) => {
   }
 });
 
-router.get("/user", async (req, res) => {
+router.get("/user",auth, async (req, res) => {
   try {
     const users = await User.find({});
     res.status(200).send(users);
@@ -41,9 +42,9 @@ router.get("/user", async (req, res) => {
 });
 
 //using param
-router.get("/user/:id", async (req, res) => {
-  const _id = req.params.id; //postman aken den id eka(url included) assigned wenwa            //Internet needed for all js file run
-
+router.get("/user/me",auth, async (req, res) => {
+  //const _id = req.params.id; //postman aken den id eka("/user/:id" url included) assigned wenwa            //Internet needed for all js file run
+   const _id=req.user._id;
   try {
     const user = await User.findById(_id); //find user by id
     if (!user) {
@@ -55,9 +56,9 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 
-router.patch("/user/:id", async (req, res) => {
+router.patch("/user/me",auth, async (req, res) => {
   try {
-    const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const updateUser = await User.findByIdAndUpdate(req.user._id, req.body, {
       new: true,
     }); //new:true means request to get updated user
     if (!updateUser) {
@@ -70,9 +71,9 @@ router.patch("/user/:id", async (req, res) => {
 });
 
 //Delete Methods
-router.delete("/user/:id", async (req, res) => {
+router.delete("/user/me",auth, async (req, res) => {
    try {
-     const  deleteUser = await User.findByIdAndDelete(req.params.id); 
+     const  deleteUser = await User.findByIdAndDelete(req.user._id); 
      if (!updateUser) {
        return res.status(400).send();
      }
