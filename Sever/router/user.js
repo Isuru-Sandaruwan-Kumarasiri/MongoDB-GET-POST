@@ -82,4 +82,29 @@ router.delete("/user/me",auth, async (req, res) => {
      res.status(400).send(error);
    }
  });
+
+
+
+ //logout method
+
+ router.post("/users/logout", auth, async (req, res) => {
+  try {
+    console.log("Before Logout - Tokens:", req.user.tokens);
+    
+   
+    req.user.tokens = req.user.tokens.filter((object) => {
+      return object.token !== req.token;
+    });
+
+    console.log("After Logout - Tokens:", req.user.tokens);
+    console.log("req.token-",req.token)
+
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    console.error("Logout Error:", error);
+    res.status(500).send();
+  }
+});
+
 module.exports = router;
